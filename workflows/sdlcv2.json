@@ -1,0 +1,685 @@
+{
+  "name": "sdlcv2",
+  "nodes": [
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "// Shape the LLM reply so the rest of the flow stays the same\nconst businessCase = $json.output\nreturn {\n  businessCase,\n  inputSource: 'chat',\n  chatRequestId: `openai-${Date.now()}`\n};"
+      },
+      "id": "71126821-7559-48b1-81fd-a969c6d5034b",
+      "name": "Format Chat Input",
+      "type": "n8n-nodes-base.code",
+      "position": [
+        -1060,
+        160
+      ],
+      "typeVersion": 2
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "business-case-param",
+              "name": "businessCase",
+              "type": "string",
+              "value": "={{ $json.businessCase }}"
+            },
+            {
+              "id": "confluence-url-param",
+              "name": "confluence_base_url",
+              "type": "string",
+              "value": "https://durgesh.dandotiya.atlassian.net"
+            },
+            {
+              "id": "target-space-param",
+              "name": "target_space_key",
+              "type": "string",
+              "value": "BA"
+            },
+            {
+              "id": "parent-page-param",
+              "name": "target_parent_page_id",
+              "type": "string",
+              "value": "123456789"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "3b3d4b23-34a5-486e-9f41-82e9abd30127",
+      "name": "Set Parameters",
+      "type": "n8n-nodes-base.set",
+      "position": [
+        -840,
+        160
+      ],
+      "typeVersion": 3.4
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4o"
+        },
+        "options": {}
+      },
+      "id": "c373354a-cd5c-44f1-83e8-910276a2eef0",
+      "name": "OpenAI Model - Research",
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "position": [
+        -540,
+        380
+      ],
+      "typeVersion": 1.2,
+      "credentials": {
+        "openAiApi": {
+          "id": "W1zvJUMOdoNrWMfJ",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $('Set Parameters').item.json.businessCase }}",
+        "messages": {
+          "messageValues": [
+            {
+              "message": "Perform deep research on the following business case and produce a Business Analyst package. Include:\n\n1. Executive Summary\n2. Problem Statement\n3. Business Objectives\n4. Stakeholder Analysis\n5. Current State Analysis\n6. Future State Vision\n7. Gap Analysis\n8. Requirements Overview\n9. Success Metrics\n10. Risk Assessment\n11. Timeline Estimate\n12. Resource Requirements\n\nProvide a comprehensive analysis that will serve as the foundation for functional and technical specifications."
+            }
+          ]
+        }
+      },
+      "id": "ec90b020-e5ba-4969-8039-1ca0992e1780",
+      "name": "1. Business Analyst Research",
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "position": [
+        -620,
+        160
+      ],
+      "typeVersion": 1.6
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4o"
+        },
+        "options": {}
+      },
+      "id": "e2b251b2-e4e2-46b9-8318-61cc9eeec069",
+      "name": "OpenAI Model - Functional",
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "position": [
+        -160,
+        80
+      ],
+      "typeVersion": 1.2,
+      "credentials": {
+        "openAiApi": {
+          "id": "W1zvJUMOdoNrWMfJ",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $('1. Business Analyst Research').item.json.text }}",
+        "messages": {
+          "messageValues": [
+            {
+              "message": "Generate a detailed functional specification based on the business analyst package provided. Include:\n\n1. Functional Requirements\n2. User Stories with Acceptance Criteria\n3. Use Cases and Scenarios\n4. Business Rules\n5. Data Requirements\n6. Integration Requirements\n7. User Interface Requirements\n8. Reporting Requirements\n9. Security Requirements\n10. Performance Requirements\n11. Compliance Requirements\n12. Testing Requirements\n\nFormat this as a comprehensive functional specification document that developers and stakeholders can use."
+            }
+          ]
+        }
+      },
+      "id": "2365c1f0-0c2a-489e-85f4-e32f8c4a166f",
+      "name": "2. Generate Functional Specification",
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "position": [
+        -240,
+        -140
+      ],
+      "typeVersion": 1.6
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4o"
+        },
+        "options": {}
+      },
+      "id": "e83fca39-b381-486f-98ee-fe74b5ef1deb",
+      "name": "OpenAI Model - Technical",
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "position": [
+        -80,
+        580
+      ],
+      "typeVersion": 1.2,
+      "credentials": {
+        "openAiApi": {
+          "id": "W1zvJUMOdoNrWMfJ",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "project": {
+          "__rl": true,
+          "value": "10000",
+          "mode": "list",
+          "cachedResultName": "SDLC Test"
+        },
+        "issueType": {
+          "__rl": true,
+          "value": "10002",
+          "mode": "list",
+          "cachedResultName": "Epic"
+        },
+        "summary": "=Define Epics & User Stories for Cashback",
+        "additionalFields": {
+          "description": "={{ $('2. Generate Functional Specification').item.json.text }}",
+          "labels": [
+            "business-case",
+            "automation",
+            "ai-generated"
+          ]
+        }
+      },
+      "id": "b3b6de33-4828-4ea6-9cd2-5bbffab7c261",
+      "name": "4. Create JIRA Epic",
+      "type": "n8n-nodes-base.jira",
+      "position": [
+        200,
+        -40
+      ],
+      "typeVersion": 1,
+      "credentials": {
+        "jiraSoftwareCloudApi": {
+          "id": "fw6bRs0tjRdqH1Ei",
+          "name": "Jira SW Cloud account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4o"
+        },
+        "options": {}
+      },
+      "id": "7f36f0dd-dc1f-4773-81bc-daed85e2aae0",
+      "name": "OpenAI Model - Mermaid",
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "position": [
+        440,
+        580
+      ],
+      "typeVersion": 1.2,
+      "credentials": {
+        "openAiApi": {
+          "id": "W1zvJUMOdoNrWMfJ",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $('3. Generate Technical Specification').item.json.text }}",
+        "messages": {
+          "messageValues": [
+            {
+              "message": "Based on the technical specification provided, Generate separate Mermaid diagram scripts (without any additional text or markdown) for each of the following where applicable:  1. **System Architecture Diagram**      - Show all major microservices/containers, how they connect, and any external integrations.  2. **Component Diagram**      - Detail each internal component of key services (e.g., API Gateway, Auth Service, Game Engine Service), and how they relate.  3. **Data Model Diagram (ERD)**      - Illustrate core entities, their primary/foreign keys, and relationships (for example: Users, Orders, Transactions, CashBack).  4. **Data Flow / Pipeline Diagram**      - Show how data moves through the system, from frontend requests through backend APIs, event broker, processing services, into databases or caches.  5. **Sequence Diagram**      - Pick a critical use case (e.g., “User places a bet” or “Weekly cashback calculation”) and show the sequence of calls and events across services.  6. **Event Flow Diagram**      - Describe how domain events (e.g., OrderCreated, PaymentProcessed, CashBackCalculated) travel through the message broker and trigger downstream services.  Provide each diagram as a standalone Mermaid script block, labeled with a comment indicating which diagram it is (e.g., `%% System Architecture`). Do not include any prose—just the raw Mermaid code ready for rendering."
+            }
+          ]
+        }
+      },
+      "id": "d41fe7fe-ec7f-4e8d-9a20-a3e7cbf14916",
+      "name": "5. Generate Mermaid Architecture",
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "position": [
+        360,
+        360
+      ],
+      "typeVersion": 1.6
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "// Generate timestamp for unique page titles\nconst timestamp = $now.toFormat('yyyy-MM-dd-HH-mm');\nconst businessCase = $('Format Chat Input').first().json.businessCase\nconst baPackage = $('1. Business Analyst Research').first().json.text;\nconst functionalSpec = $('2. Generate Functional Specification').first().json.text;\nconst technicalSpec = $('3. Generate Technical Specification').first().json.text;\nconst mermaidScript = $('5. Generate Mermaid Architecture').first().json.text;\nconst jiraEpicKey = $('4. Create JIRA Epic').first().json.key;\n\n// Create comprehensive Confluence page content\nconst pageTitle = `${timestamp} - Business Case Analysis: ${businessCase}`;\n\nconst pageBody = `\n<h1>Business Case Analysis: ${businessCase}</h1>\n<p><strong>Generated on:</strong> ${$now.toFormat('yyyy-MM-dd HH:mm:ss')}</p>\n<p><strong>Related JIRA Epic:</strong> <a href=\"https://your-domain.atlassian.net/browse/${jiraEpicKey}\">${jiraEpicKey}</a></p>\n\n<h2>📋 Business Analyst Research Package</h2>\n<div class=\"panel\">\n<div class=\"panelContent\">\n${baPackage.replace(/\\n/g, '<br/>')}\n</div>\n</div>\n\n<h2>📄 Functional Specification</h2>\n<div class=\"panel\">\n<div class=\"panelContent\">\n${functionalSpec.replace(/\\n/g, '<br/>')}\n</div>\n</div>\n\n<h2>🔧 Technical Specification</h2>\n<div class=\"panel\">\n<div class=\"panelContent\">\n${technicalSpec.replace(/\\n/g, '<br/>')}\n</div>\n</div>\n\n<h2>🏗️ System Architecture Diagram</h2>\n<ac:structured-macro ac:name=\"mermaid\">\n  <ac:plain-text-body><![CDATA[\n${mermaidScript}\n  ]]></ac:plain-text-body>\n</ac:structured-macro>\n\n<h2>📊 Summary</h2>\n<p>This comprehensive business case analysis was automatically generated and includes all necessary documentation for project initiation and development planning.</p>\n`;\n\nreturn {\n  page_title: pageTitle,\n  page_body: pageBody,\n  business_case: businessCase,\n  jira_epic_key: jiraEpicKey\n};"
+      },
+      "id": "ad90ae21-15d9-45ea-986a-8d30d440ed80",
+      "name": "6. Prepare Confluence Content",
+      "type": "n8n-nodes-base.code",
+      "position": [
+        720,
+        160
+      ],
+      "typeVersion": 2
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $('Set Parameters').item.json.confluence_base_url }}/wiki/rest/api/content/",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpBasicAuth",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "type",
+              "value": "page"
+            },
+            {
+              "name": "title",
+              "value": "={{ $('6. Prepare Confluence Content').item.json.page_title }}"
+            },
+            {
+              "name": "space",
+              "value": "={{ { \"key\" : $('Set Parameters').item.json.target_space_key } }}"
+            },
+            {
+              "name": "body",
+              "value": "={{ { \"storage\" : { \"value\" : $('6. Prepare Confluence Content').item.json.page_body, \"representation\" : \"storage\" } } }}"
+            },
+            {
+              "name": "ancestors",
+              "value": "={{ [{\"type\" : \"page\", \"id\" : $('Set Parameters').item.json.target_parent_page_id} ] }}"
+            }
+          ]
+        },
+        "options": {
+          "allowUnauthorizedCerts": true
+        }
+      },
+      "id": "9be94455-3209-40c8-abe1-5851a875e843",
+      "name": "7. Create Confluence Documentation",
+      "type": "n8n-nodes-base.httpRequest",
+      "position": [
+        940,
+        160
+      ],
+      "typeVersion": 4.2,
+      "credentials": {
+        "httpBasicAuth": {
+          "id": "ZigR1KGSkCmWcLoq",
+          "name": "Unnamed credential 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "final-summary",
+              "name": "summary",
+              "type": "string",
+              "value": "Business case analysis completed successfully"
+            },
+            {
+              "id": "confluence-url",
+              "name": "confluence_page_url",
+              "type": "string",
+              "value": "={{ $('Set Parameters').item.json.confluence_base_url }}/wiki{{ $json._links.webui }}"
+            },
+            {
+              "id": "jira-epic-url",
+              "name": "jira_epic_url",
+              "type": "string",
+              "value": "={{ $('Set Parameters').item.json.confluence_base_url.replace('/wiki', '') }}/browse/{{ $('6. Prepare Confluence Content').item.json.jira_epic_key }}"
+            },
+            {
+              "id": "business-case-title",
+              "name": "business_case_title",
+              "type": "string",
+              "value": "={{ $('6. Prepare Confluence Content').item.json.business_case }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "b186d42d-4366-4a81-9485-1d564b7e4c4a",
+      "name": "8. Final Output Summary",
+      "type": "n8n-nodes-base.set",
+      "position": [
+        1160,
+        160
+      ],
+      "typeVersion": 3.4
+    },
+    {
+      "parameters": {
+        "content": "## 🧠 AI‐Powered Business Case Automation Workflow\n\nThis workflow automates the complete business case analysis process:\n\n### 📋 Process Flow:\n1. **Chat Input (OpenAI)** – prompts the user for a business case\n2. **BA Research** – AI generates comprehensive business analyst package\n3. **Functional Spec** – Creates detailed functional specification\n4. **Technical Spec** – Generates technical specification\n5. **JIRA Epic** – Automatically creates project epic\n6. **Mermaid Diagram** – Generates system architecture visualization\n7. **Confluence Page** – Creates comprehensive documentation\n8. **Final Output** – Returns all generated links and summaries\n\n### 🔗 Usage:\nAnswer the initial chat prompt with your business case, then let the workflow run end‐to‐end.\n\n### 📊 Outputs:\n- Business Analyst Research Package\n- Functional Specification Document\n- Technical Specification Document\n- Jira Epic with User Stories\n- System Architecture Diagram (Mermaid)\n- Complete Confluence Documentation Page",
+        "height": 600,
+        "width": 400,
+        "color": 2
+      },
+      "id": "e1042899-7a82-4959-9883-12717ba687a0",
+      "name": "Workflow Documentation",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -1080,
+        300
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "content": "## 🔧 Configuration Required\n\n### Credentials:\n- **OpenAI API Key** for the Chat & LLM nodes\n- **JIRA Credentials** (API Token)\n- **Confluence Basic Auth** (API Token)\n\n### Parameters to Update:\n- `confluence_base_url`: Your Atlassian domain\n- `target_space_key`: Confluence space for documentation\n- `target_parent_page_id`: Parent page ID in Confluence\n- JIRA project name in the Epic node\n\n### Customization:\n- Adjust AI prompts for your specific needs\n- Modify Confluence page template\n- Add additional processing steps\n- Configure notification systems",
+        "height": 440,
+        "width": 380,
+        "color": 5
+      },
+      "id": "6b999393-2a50-4138-9036-793bd1e4f7bf",
+      "name": "Configuration Notes",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        860,
+        380
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        -1660,
+        160
+      ],
+      "id": "48c2a250-d3db-4ca8-9ba0-2c36f4d8962a",
+      "name": "When chat message received",
+      "webhookId": "e8e827ec-5ccc-456e-833f-cc249ac4d9cb"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2,
+      "position": [
+        -1480,
+        160
+      ],
+      "id": "197daf62-70d3-48a6-b0dd-90d7b4511784",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4o-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        -1400,
+        380
+      ],
+      "id": "e26e2951-96a3-4207-ac93-6c3d42c61bfd",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "W1zvJUMOdoNrWMfJ",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        -1280,
+        380
+      ],
+      "id": "3c7baccb-8bdd-4d62-820f-b502f7d64a34",
+      "name": "Simple Memory"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $('1. Business Analyst Research').item.json.text }}",
+        "messages": {
+          "messageValues": [
+            {
+              "message": " Generate a comprehensive technical specification. Assume the platform uses:  - **Backend:** Java (Spring Boot) - **Architecture:** Microservices following Domain‐Driven Design (DDD) and an event‐driven messaging system - **Frontend:** React (with modern hooks and state management) - **Databases & Storage:** Relational (PostgreSQL) and NoSQL (Redis or MongoDB) as appropriate - **Messaging Broker:** (e.g., Kafka or RabbitMQ) for asynchronous event flow - **Containerization & Orchestration:** Docker and Kubernetes  Your technical specification should cover, in detail:  1. **High-Level System Architecture**      - Diagram or description of each microservice and its boundary (e.g., Auth Service, User Profile Service, Core Domain Service, Notification Service, etc.)      - How the React frontend communicates (API Gateway or Backend-for-Frontend) with backend microservices      - Service discovery, load balancing, and API routing  2. **Domain-Driven Design (DDD) Structure**      - Identify bounded contexts for the domain described in the business case      - For each bounded context, list aggregates, entities, and value objects      - Show how the ubiquitous language drives service responsibilities and database schemas  3. **Event-Driven Messaging**      - Choose a message broker (e.g., Kafka or RabbitMQ) and justify it      - Enumerate key domain events (e.g., OrderCreated, PaymentProcessed, InventoryUpdated) that apply to this business case      - Describe topics/queues, schemas (JSON or Avro), versioning, and consumer groups      - Outline how services publish and consume events, ensuring eventual consistency  4. **Microservices Details**      - For each microservice:        - **Technology Stack**: Spring Boot, Hibernate (or JPA), database choice, caching layer (Redis or similar)        - **API Contracts**: REST endpoints (HTTP methods, URIs, request/response schemas) or gRPC definitions        - **Internal Layers**: Domain layer, service layer, repository/DAO layer        - **Error Handling & Resilience**: Retry strategies, circuit breakers (e.g., Resilience4j), fallback logic        - **Security**: OAuth2/JWT authentication, role-based access control, input validation, encryption in transit  5. **Frontend (React) Architecture**      - **Component Structure**: Functional components, hooks, context providers, routing (React Router)      - **State Management**: Redux or Context API patterns for global state, local state via hooks      - **API Integration**: Axios or Fetch client setup, handling authentication tokens, error states      - **UI Patterns & Performance**: Code splitting (React.lazy), memoization, virtualization for large lists, lazy loading of assets  6. **Database & Data Storage**      - **Relational Data**: Table schemas for core entities (e.g., Users, Orders, Transactions), primary/foreign keys, indexing strategy      - **NoSQL Data**: Use cases for Redis (caching, sessions) or MongoDB (denormalized reads, event store)      - **Data Modeling**: Example ER diagrams or collection designs for the business domain      - **Backup & Migrations**: Flyway or Liquibase for schema migrations, scheduled backups, and restore plans  7. **API Specifications**      - Document key endpoints: URL, HTTP method, path parameters, query parameters, request body schema, response body schema, and example payloads      - Include error codes and response formats for validation errors, authentication failures, and server errors  8. **Integration with Third-Party Services**      - Payment gateways, external identity providers, email/SMS providers, or analytics integrations relevant to the business case      - How webhooks or callback URLs are handled securely  9. **Security Architecture**      - **Authentication & Authorization**: JWT flow, refresh tokens, role-based checks at the gateway level or within each service      - **Encryption**: TLS for all service-to-service and client-to-service communication; database encryption at rest      - **Vulnerability Protections**: Input sanitization, OWASP Top Ten mitigations (XSS, CSRF, SQL Injection)  10. **Scalability & Performance Considerations**       - **Horizontal Scaling**: Kubernetes deployment strategy (Helm charts, namespaces), Autoscaler rules       - **Caching Strategy**: API response caching, Redis for frequently accessed data, HTTP caching headers on static assets       - **Load Testing**: Expected concurrent user volumes, throughput targets, and tools (JMeter, Gatling) to validate performance  11. **Monitoring, Logging & Alerting**       - **Logging**: Structured logs (JSON) with correlation IDs, centralized ingestion (ELK stack or Loki + Grafana)       - **Metrics**: Instrumentation with Micrometer in Spring Boot, exporting to Prometheus       - **Tracing**: Distributed tracing setup with Jaeger or Zipkin to track cross-service flows       - **Alerts & Dashboards**: Grafana dashboards for key metrics (error rates, request latency, CPU/memory usage) and alert rules for SLA violations  12. **Deployment & CI/CD Pipeline**       - **Version Control & Branching**: Git flow or trunk-based development strategy       - **CI Pipeline**: Build, test (unit, integration), static code analysis (SonarQube), container image creation       - **CD Pipeline**: Automated deployments to staging and production using Argo CD, Jenkins X, or GitHub Actions       - **Release Strategy**: Canary or blue/green deployments to minimize downtime  13. **Disaster Recovery & Business Continuity**       - **Backups**: Automated database backups, retention policies, and point-in-time recovery       - **Failover**: Multi-region strategy for critical services (e.g., Kafka replication, standby databases)       - **Runbooks**: Step-by-step recovery procedures for service crashes, data corruption, or catastrophic failures  14. **Development Environment & Tooling**       - **Local Setup**: Docker Compose file to spin up dependencies (PostgreSQL, Kafka, Redis, MinIO)       - **IDE & Plugins**: IntelliJ IDEA with essential plugins (Spring, Lombok), VS Code for React development       - **Code Quality**: Pre-commit hooks, ESLint/Prettier for frontend, Checkstyle/PMD for backend       - **Testing Frameworks**: JUnit 5, Mockito for backend; Jest + React Testing Library for frontend; Cypress for end-to-end tests  15. **Testing & Quality Assurance Strategy**       - **Unit Tests**: Coverage targets, mocking strategies, and example test cases       - **Integration Tests**: Use Testcontainers for spinning up ephemeral databases and message brokers       - **End-to-End Tests**: Cypress or Playwright scripts simulating typical user flows       - **Security & Vulnerability Scans**: Automated SAST/DAST scans in the CI pipeline  16. **Compliance & Regulatory Requirements**       - Any data protection rules (e.g., GDPR, CCPA) that apply to collected user data       - Audit logging requirements for financial or sensitive operations       - Regional restrictions on data residency or encryption standards  Provide this technical specification as a single, well-structured document (Markdown or HTML). Include diagrams (Mermaid or draw.io) where helpful—for example, a microservices architecture diagram, event flow diagram, or database ER model.  By following these guidelines, a development team will have a clear blueprint to design, build, test, deploy, and maintain a robust, secure, scalable, and high-performance application for whatever business case you supply. "
+            }
+          ]
+        }
+      },
+      "id": "7ec067fd-1d46-453d-9420-be7ec984e781",
+      "name": "3. Generate Technical Specification",
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "position": [
+        -160,
+        340
+      ],
+      "typeVersion": 1.6,
+      "alwaysOutputData": false
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Format Chat Input": {
+      "main": [
+        [
+          {
+            "node": "Set Parameters",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Parameters": {
+      "main": [
+        [
+          {
+            "node": "1. Business Analyst Research",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Model - Research": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "1. Business Analyst Research",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "1. Business Analyst Research": {
+      "main": [
+        [
+          {
+            "node": "2. Generate Functional Specification",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "3. Generate Technical Specification",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Model - Functional": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "2. Generate Functional Specification",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "2. Generate Functional Specification": {
+      "main": [
+        [
+          {
+            "node": "4. Create JIRA Epic",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Model - Technical": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "3. Generate Technical Specification",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "4. Create JIRA Epic": {
+      "main": [
+        [
+          {
+            "node": "6. Prepare Confluence Content",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Model - Mermaid": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "5. Generate Mermaid Architecture",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "5. Generate Mermaid Architecture": {
+      "main": [
+        [
+          {
+            "node": "6. Prepare Confluence Content",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "6. Prepare Confluence Content": {
+      "main": [
+        [
+          {
+            "node": "7. Create Confluence Documentation",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "7. Create Confluence Documentation": {
+      "main": [
+        [
+          {
+            "node": "8. Final Output Summary",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Format Chat Input",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "3. Generate Technical Specification": {
+      "main": [
+        [
+          {
+            "node": "5. Generate Mermaid Architecture",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "7b4764c2-ac64-4667-8a62-b335c7a6799f",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "0394d3775b5e00b214ab0c7be47a9bd6b52b2abac28a07e03a9c4f24d944ba73"
+  },
+  "id": "LnmGcZjMkTmoBP9m",
+  "tags": []
+}
