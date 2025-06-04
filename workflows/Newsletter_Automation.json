@@ -60,7 +60,7 @@
       "name": "OpenAI Chat Model",
       "credentials": {
         "openAiApi": {
-          "id": "BP9v81AwJlpYGStD",
+          "id": "OPENAI_CREDENTIAL_ID",
           "name": "OpenAi account"
         }
       }
@@ -112,7 +112,7 @@
       "name": "Project Planner",
       "credentials": {
         "openAiApi": {
-          "id": "BP9v81AwJlpYGStD",
+          "id": "OPENAI_CREDENTIAL_ID",
           "name": "OpenAi account"
         }
       }
@@ -162,7 +162,7 @@
       "name": "Anthropic Chat Model",
       "credentials": {
         "anthropicApi": {
-          "id": "iEsH2oywXIJiWHnM",
+          "id": "ANTHROPIC_CREDENTIAL_ID",
           "name": "Anthropic account"
         }
       }
@@ -244,7 +244,7 @@
       "webhookId": "1c988659-2d0a-4471-a1c9-331dccdde458",
       "credentials": {
         "gmailOAuth2": {
-          "id": "MHutgNQIvAz7qMgP",
+          "id": "GMAIL_CREDENTIAL_ID",
           "name": "Gmail account"
         }
       }
@@ -277,7 +277,7 @@
       "name": "Create TItle",
       "credentials": {
         "openAiApi": {
-          "id": "BP9v81AwJlpYGStD",
+          "id": "OPENAI_CREDENTIAL_ID",
           "name": "OpenAi account"
         }
       }
@@ -329,7 +329,7 @@
         "url": "https://api.tavily.com/search",
         "sendBody": true,
         "specifyBody": "json",
-        "jsonBody": "={\n    \"api_key\": \"YOUR API KEY\",\n    \"query\": \"{{ $json.query.replace(/\"/g, '\\\\\"') }}\",\n    \"search_depth\": \"basic\",\n    \"include_answer\": true,\n    \"topic\": \"news\",\n    \"include_raw_content\": true,\n    \"max_results\": 3\n} ",
+        "jsonBody": "={\n    \"api_key\": \"TAVILY_API_KEY_PLACEHOLDER\",\n    \"query\": \"{{ $json.query.replace(/\"/g, '\\\\\"') }}\",\n    \"search_depth\": \"basic\",\n    \"include_answer\": true,\n    \"topic\": \"news\",\n    \"include_raw_content\": true,\n    \"max_results\": 3\n} ",
         "options": {}
       },
       "id": "37ddda9b-46da-4673-b0f7-d7862d6c19eb",

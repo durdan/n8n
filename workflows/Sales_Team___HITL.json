@@ -34,8 +34,8 @@
       "name": "Airtable Trigger",
       "credentials": {
         "airtableTokenApi": {
-          "id": "UlAGE0msyITVkoCN",
-          "name": "Nate Airtable"
+          "id": "AIRTABLE_CREDENTIAL_ID",
+          "name": "Airtable account"
         }
       }
     },
@@ -53,7 +53,7 @@
       "name": "Anthropic Chat Model",
       "credentials": {
         "anthropicApi": {
-          "id": "iEsH2oywXIJiWHnM",
+          "id": "ANTHROPIC_CREDENTIAL_ID",
           "name": "Anthropic account"
         }
       }
@@ -78,8 +78,8 @@
       "name": "Project Database",
       "credentials": {
         "airtableTokenApi": {
-          "id": "UlAGE0msyITVkoCN",
-          "name": "Nate Airtable"
+          "id": "AIRTABLE_CREDENTIAL_ID",
+          "name": "Airtable account"
         }
       }
     },
@@ -136,7 +136,7 @@
       "webhookId": "9ae2a2f2-de7c-46a1-93f7-8b2612d40751",
       "credentials": {
         "gmailOAuth2": {
-          "id": "MHutgNQIvAz7qMgP",
+          "id": "GMAIL_CREDENTIAL_ID",
           "name": "Gmail account"
         }
       }
@@ -156,7 +156,7 @@
       "name": "Google Gemini Chat Model",
       "credentials": {
         "googlePalmApi": {
-          "id": "DW8owDXDeMHnr1rA",
+          "id": "GOOGLE_GEMINI_CREDENTIAL_ID",
           "name": "Google Gemini(PaLM) Api account"
         }
       }
@@ -221,7 +221,7 @@
       "webhookId": "10605e1c-7bc0-4a9f-b23a-9797cc88449e",
       "credentials": {
         "gmailOAuth2": {
-          "id": "MHutgNQIvAz7qMgP",
+          "id": "GMAIL_CREDENTIAL_ID",
           "name": "Gmail account"
         }
       }

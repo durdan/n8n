@@ -29,7 +29,7 @@
               "id": "confluence-url-param",
               "name": "confluence_base_url",
               "type": "string",
-              "value": "https://durgesh.dandotiya.atlassian.net"
+              "value": "https://your-domain.atlassian.net"
             },
             {
               "id": "target-space-param",
@@ -41,7 +41,7 @@
               "id": "parent-page-param",
               "name": "target_parent_page_id",
               "type": "string",
-              "value": "123456789"
+              "value": "YOUR_PARENT_PAGE_ID"
             }
           ]
         },
@@ -75,7 +75,7 @@
       "typeVersion": 1.2,
       "credentials": {
         "openAiApi": {
-          "id": "W1zvJUMOdoNrWMfJ",
+          "id": "OPENAI_CREDENTIAL_ID",
           "name": "OpenAi account"
         }
       }
@@ -120,7 +120,7 @@
       "typeVersion": 1.2,
       "credentials": {
         "openAiApi": {
-          "id": "W1zvJUMOdoNrWMfJ",
+          "id": "OPENAI_CREDENTIAL_ID",
           "name": "OpenAi account"
         }
       }
@@ -165,7 +165,7 @@
       "typeVersion": 1.2,
       "credentials": {
         "openAiApi": {
-          "id": "W1zvJUMOdoNrWMfJ",
+          "id": "OPENAI_CREDENTIAL_ID",
           "name": "OpenAi account"
         }
       }
@@ -204,7 +204,7 @@
       "typeVersion": 1,
       "credentials": {
         "jiraSoftwareCloudApi": {
-          "id": "fw6bRs0tjRdqH1Ei",
+          "id": "JIRA_CREDENTIAL_ID",
           "name": "Jira SW Cloud account"
         }
       }
@@ -228,7 +228,7 @@
       "typeVersion": 1.2,
       "credentials": {
         "openAiApi": {
-          "id": "W1zvJUMOdoNrWMfJ",
+          "id": "OPENAI_CREDENTIAL_ID",
           "name": "OpenAi account"
         }
       }
@@ -313,8 +313,8 @@
       "typeVersion": 4.2,
       "credentials": {
         "httpBasicAuth": {
-          "id": "ZigR1KGSkCmWcLoq",
-          "name": "Unnamed credential 2"
+          "id": "CONFLUENCE_CREDENTIAL_ID",
+          "name": "Confluence credential"
         }
       }
     },
@@ -437,7 +437,7 @@
       "name": "OpenAI Chat Model",
       "credentials": {
         "openAiApi": {
-          "id": "W1zvJUMOdoNrWMfJ",
+          "id": "OPENAI_CREDENTIAL_ID",
           "name": "OpenAi account"
         }
       }
