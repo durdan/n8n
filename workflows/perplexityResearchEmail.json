@@ -1,0 +1,38 @@
+{
+  "name": "Perplexity Research to Email",
+  "nodes": [
+    {
+      "parameters": {
+        "query": "={{ $json.researchTopic }}",
+        "model": "pplx-70b-online"
+      },
+      "name": "Perplexity",
+      "type": "n8n-nodes-base.perplexity",
+      "position": [300, 300]
+    },
+    {
+      "parameters": {
+        "fromEmail": "={{ $json.senderEmail }}",
+        "toEmail": "={{ $json.recipientEmail }}",
+        "subject": "Research Results: ={{ $json.researchTopic }}",
+        "text": "=Research Results for: {{ $json.query }}\n\nFindings:\n{{ $json.result }}"
+      },
+      "name": "Send Email",
+      "type": "n8n-nodes-base.emailSend",
+      "position": [500, 300]
+    }
+  ],
+  "connections": {
+    "Perplexity": {
+      "main": [
+        [
+          {
+            "node": "Send Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  }
+}
